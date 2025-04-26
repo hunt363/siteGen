@@ -1,5 +1,5 @@
 import unittest
-from leafnode import LeafNode
+from htmlnode import LeafNode
 from textnode import TextNode, TextType
 
 
@@ -56,6 +56,11 @@ class LeafTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             node = TextNode("Invalid type", None)
             LeafNode.text_node_to_html_node(node)
+
+    def test_leaf_to_html_b(self):
+        node = LeafNode(value="Hello, world!")
+        # print(node.to_html())
+        self.assertEqual(node.to_html(), "Hello, world!")
 
 
 if __name__ == "__main__":
