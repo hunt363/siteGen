@@ -2,6 +2,7 @@ from block_nodes import markdown_to_html_node
 from textnode import TextNode
 import os
 import shutil
+import sys
 
 
 def extract_title(markdown):
@@ -12,17 +13,24 @@ def extract_title(markdown):
     raise ValueError("No title found in markdown")
 
 
-def generate_page(from_path: str, template_path: str, dest_path: str):
+def generate_page(
+    from_path: str, template_path: str, dest_path: str, basepath: str = "/"
+):
     markdown = open(from_path, "r").read()
     template = open(template_path, "r").read()
     html = markdown_to_html_node(markdown).to_html()
     title = extract_title(markdown)
-    template = template.replace("{{ Title }}", title).replace("{{ Content }}", html)
+    template = (
+        template.replace("{{ Title }}", title)
+        .replace("{{ Content }}", html)
+        .replace('href="/', f'href="{basepath}')
+        .replace('src="/', f'src="{basepath}')
+    )
     open(dest_path, "w").write(template)
 
 
 def generate_pages_recursive(
-    dir_path_content: str, template_path: str, dest_dir_path: str
+    dir_path_content: str, template_path: str, dest_dir_path: str, basepath: str = "/"
 ):
     if not os.path.exists(dest_dir_path):
         os.makedirs(dest_dir_path)
@@ -56,8 +64,11 @@ def copy_static_files(src: str, dst: str):
 
 
 def main():
-    copy_static_files("static", "public")
-    generate_pages_recursive("content", "template.html", "public")
+    basepath = "/"
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+    copy_static_files("static", "docs")
+    generate_pages_recursive("content", "template.html", "docs", basepath)
 
 
 if __name__ == "__main__":
