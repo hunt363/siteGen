@@ -20,12 +20,13 @@ def generate_page(
     template = open(template_path, "r").read()
     html = markdown_to_html_node(markdown).to_html()
     title = extract_title(markdown)
+
     template = (
         template.replace("{{ Title }}", title)
         .replace("{{ Content }}", html)
-        .replace('href="/', f'href="{basepath}')
-        .replace('src="/', f'src="{basepath}')
+        .replace("{{ BasePath }}", basepath)
     )
+
     open(dest_path, "w").write(template)
 
 
