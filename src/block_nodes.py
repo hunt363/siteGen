@@ -50,7 +50,7 @@ def markdown_to_blocks(markdown: str):
     return blocks
 
 
-def markdown_to_html_node(markdown: str, basepath: str = "/") -> ParentNode:
+def markdown_to_html_node(markdown: str) -> ParentNode:
     blocks = markdown_to_blocks(markdown)
     block_nodes = []
 

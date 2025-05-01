@@ -101,7 +101,7 @@ class ParentNode(HTMLNode):
         return f"ParentNode({self.tag}, {self.children}, {self.props})"
 
 
-def text_node_to_html_node(text_node: TextNode, basepath: str = "/") -> HTMLNode:
+def text_node_to_html_node(text_node: TextNode):
     match (text_node.text_type):
         case TextType.TEXT:
             return LeafNode(tag=None, value=text_node.text)
@@ -115,16 +115,13 @@ def text_node_to_html_node(text_node: TextNode, basepath: str = "/") -> HTMLNode
             return LeafNode(
                 tag="a",
                 value=text_node.text,
-                props={"href": basepath + text_node.url.lstrip("/")},
+                props={"href": text_node.url},
             )
         case TextType.IMAGE:
             return LeafNode(
                 tag="img",
                 value="",
-                props={
-                    "src": basepath + text_node.url.lstrip("/"),
-                    "alt": text_node.text,
-                },
+                props={"src": text_node.url, "alt": text_node.text},
             )
         case _:
             raise ValueError("Invalid text type")
