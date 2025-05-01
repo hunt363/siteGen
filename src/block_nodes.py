@@ -2,8 +2,6 @@ from enum import Enum
 
 from htmlnode import LeafNode, ParentNode, text_node_to_html_node
 from inline_nodes import text_to_textnodes
-from htmlnode import HTMLNode, TextNode
-from textnode import TextType
 
 
 class BlockType(Enum):
