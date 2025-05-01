@@ -3,18 +3,29 @@ name: Build Site
 on:
   push:
     branches:
-      - main  # Or your default branch
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Give build.sh execute permissions
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Make build.sh executable
         run: chmod +x ./build.sh
 
       - name: Run build script
         run: ./build.sh
+
+      - name: Commit built docs
+        run: |
+          git add docs/
+          git commit -m "Update built site [auto]" || echo "No changes to commit"
+          git push
