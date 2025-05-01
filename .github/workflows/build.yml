@@ -28,4 +28,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public  # Change this to your output directory
+          publish_dir: ./docs  # Change this to your output directory
