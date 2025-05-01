@@ -1,31 +1,20 @@
-name: Build and Deploy
+name: Build Site
 
 on:
   push:
     branches:
-      - main
+      - main  # Or your default branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - name: Set up Python (if your script uses Python)
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+      - name: Give build.sh execute permissions
+        run: chmod +x ./build.sh
 
-      - name: Make build.sh executable
-        run: chmod +x build.sh
-
-      - name: Run build.sh
+      - name: Run build script
         run: ./build.sh
-
-      # Example: Deploy to GitHub Pages (optional)
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs  # Change this to your output directory
