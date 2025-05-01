@@ -38,10 +38,10 @@ def generate_pages_recursive(
         item_path = os.path.join(dir_path_content, item)
         if item.endswith(".md"):
             dest_file_path = os.path.join(dest_dir_path, item.replace(".md", ".html"))
-            generate_page(item_path, template_path, dest_file_path)
+            generate_page(item_path, template_path, dest_file_path, basepath)
         elif os.path.isdir(item_path):
             new_dir_path = os.path.join(dest_dir_path, item)
-            generate_pages_recursive(item_path, template_path, new_dir_path)
+            generate_pages_recursive(item_path, template_path, new_dir_path, basepath)
 
 
 def copy_static_files(src: str, dst: str):
@@ -68,7 +68,7 @@ def main():
     if len(sys.argv) > 1:
         basepath = sys.argv[1]
     copy_static_files("static", "docs")
-    generate_pages_recursive("content", "template.html", "docs", basepath)
+    generate_pages_recursive("content", "template.html", "docs", basepath=basepath)
 
 
 if __name__ == "__main__":
